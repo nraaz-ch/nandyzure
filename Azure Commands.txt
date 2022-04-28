@@ -1,0 +1,89 @@
+Create VM
+Install Chrome Via Choco
+Install Choco: Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+Install Chrome: choco install googlechrome
+
+Create Resorce Group
+New-AzResourceGroup -Name RG05 -Location "West Us" -Force
+
+New-Resorce
+New-AzResource -Name nandu-site5 -Location "West Us" -ResourceType microsoft.web/sites -Properties @{test="test"} -ResourceGroupName RG05 -Force
+Remove Resorce
+Remove-AzResource -Name Nandu-site2 -ResourceType microsoft.web/sites -ResourceGroupName RG02 -Force
+
+New-AzResource -Location "East Us" -ResourceName Nandu-Site2 -Properties @{test="test"} -ResourceType microsoft.web/sites -ResourceGroupName RG02 -Force
+
+New-AzResourceGroup -Name RG05 -Location "Central India" -Force
+New-AzResource -Name NGR-DEV -Location "Central India" -ResourceType microsoft.web/sites -Properties @{test="test"} -ResourceGroupName RG05 -Force
+New-AzResource -Name NGR-AT -Location "Central India" -ResourceType microsoft.web/sites -Properties @{test="test"} -ResourceGroupName RG01 -Force
+New-AzResource -Name NGR-PROD -Location "Central India" -ResourceType microsoft.web/sites -Properties @{test="test"} -ResourceGroupName RG01 -Force
+
+
+Azure App Service Plan
+-RG	: New-AzResorceGroup RG01 "East Us" 
+-ASP : New-AzAppServicePlan -Name "my-app-service" -ResourceGroupName RG01 -Location "East Us" -Tier "Free"
+-AZWebApp : New-AzWebApp -Name "My-App-nandu" -ResourceGroupName RG01 -Location "East Us" -AppServicePlan my-app-service
+By Default Creating WebApp on Windows Machine
+
+RG02 for Linux
+
+$resourceGroup = az group list --query '[0].name' --output json
+$appServicePlan = 'Linux-App-ServicePlan'
+
+az appservice plan create -g $resourceGroup -n $appServicePlan --is-linux --number-of-workers 1 --sku B1
+
+
+OPT2:
+New-AzResorceGroup RG02 "East Us"
+New-AzAppServicePlan -Name LinuxSP -ResourceGroupName RG02 -Location "East Us" -NumberofWorkers 1 -Linux
+New-AzWebApp -Name "my-linux-app-service" -ResourceGroupName RG02 -Location "East Us" -AppServicePlan LinuxSP
+
+Connect Linux VM 
+----------------
+Create VM 
+Open Putty run this command by Paste
+ssh-keygen -m PEM -t rsa -b 4096 Enter Enter Enter
+ssh -i ~/.ssh/id_rsa nandin@20.211.191.150
+
+Create VM using ARM Templates in powershell
+New-AzResourceGroupDeployment -ResourceGroupName WIN01 -TemplateFile C:\temp\template.json -TemplateParameterFile C:\temp\parameters.json -Verbose
+Name                           Type                       Value
+                          =============================  =========================  ==========
+                          location                       String                     "australiaeast"
+                          networkInterfaceName3          String                     "nandy-vm863_z3"
+                          networkSecurityGroupName       String                     "nandy-vm-nsg"
+                          networkSecurityGroupRules      Array                      [{"name":"RDP","properties":{"prior
+                          ity":300,"protocol":"TCP","access":"Allow","direction":"Inbound","sourceAddressPrefix":"*","s
+                          ourcePortRange":"*","destinationAddressPrefix":"*","destinationPortRange":"3389"}},{"name":"H
+                          TTPS","properties":{"priority":320,"protocol":"TCP","access":"Allow","direction":"Inbound","s
+                          ourceAddressPrefix":"*","sourcePortRange":"*","destinationAddressPrefix":"*","destinationPort
+                          Range":"443"}},{"name":"HTTP","properties":{"priority":340,"protocol":"TCP","access":"Allow",
+                          "direction":"Inbound","sourceAddressPrefix":"*","sourcePortRange":"*","destinationAddressPref
+                          ix":"*","destinationPortRange":"80"}}]
+                          subnetName                     String                     "default"
+                          virtualNetworkName             String                     "GB01-vnet"
+                          addressPrefixes                Array                      ["10.0.0.0/16"]
+                          subnets                        Array
+                          [{"name":"default","properties":{"addressPrefix":"10.0.0.0/24"}}]
+                          publicIpAddressName3           String                     "nandy-vm-ip"
+                          publicIpAddressType            String                     "Static"
+                          publicIpAddressSku             String                     "Standard"
+                          pipDeleteOption                String                     "Detach"
+                          virtualMachineName             String                     "nandy-vm"
+                          virtualMachineName3            String                     "nandy-vm"
+                          virtualMachineComputerName3    String                     "nandy-vm"
+                          virtualMachineRG               String                     "GB01"
+                          osDiskType                     String                     "Premium_LRS"
+                          osDiskDeleteOption             String                     "Delete"
+                          virtualMachineSize             String                     "Standard_DS1_v2"
+                          nicDeleteOption                String                     "Detach"
+                          adminUsername                  String                     "nandin"
+                          adminPassword                  SecureString               null
+                          patchMode                      String                     "AutomaticByOS"
+                          enableHotpatching              Bool                       false
+                          zone                           String                     "3"
+
+Outputs                 :
+                          Name             Type                       Value
+                          ===============  =========================  ==========
+                          adminUsername    String                     "nandin"
