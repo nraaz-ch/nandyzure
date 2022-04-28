@@ -87,3 +87,61 @@ Outputs                 :
                           Name             Type                       Value
                           ===============  =========================  ==========
                           adminUsername    String                     "nandin"
+						  
+-----------------------------------------------------------------------------------------------------
+  Creating VM By Powershell- Connect-AzAccount
+
+# Creating VM Using Power Shell
+New-AzResourceGroup -Name WIN-RG -Location "Australia East"
+
+# InPuts
+
+New-AzVm `
+    -ResourceGroupName 'WIN-RG' `
+    -Name 'myVM' `
+    -Location 'Australia East' `
+    -VirtualNetworkName 'WIN-RGVnet' `
+    -SubnetName 'WIN-RGSubnet' `
+    -SecurityGroupName 'WIN-RGNetworkSecurityGroup' `
+    -PublicIpAddressName 'WIN-RGPublicIpAddress' `
+    -OpenPorts 80,3389
+
+------------------------------------------------------------------------
+
+ResourceGroupName : WIN-RG                                                                                                                                              Location          : australiaeast                                                                                                                                       ProvisioningState : Succeeded                                                                                                                                           Tags              :                                                                                                                                                     ResourceId        : /subscriptions/bae63453-0ab1-4b8a-93f0-1bcc138d79be/resourceGroups/WIN-RG                                                                                                                                                                                                                                                                                                                                                                                                                           cmdlet New-AzVM at command pipeline position 1                                                                                                                          Supply values for the following parameters:                                                                                                                             Credential                                                                                                                                                              No Size value has been provided. The VM will be created with the default size Standard_D2s_v3.                                                                                                                                                                                                                                                  ResourceGroupName        : WIN-RG                                                                                                                                       Id                       : /subscriptions/bae63453-0ab1-4b8a-93f0-1bcc138d79be/resourceGroups/WIN-RG/providers/Microsoft.Compute/virtualMachines/myVM                   VmId                     : 9e50f90c-0ebe-4770-9c77-f6be165a04f9                                                                                                         Name                     : myVM                                                                                                                                         Type                     : Microsoft.Compute/virtualMachines                                                                                                            Location                 : australiaeast
+ExtendedLocation         :
+LicenseType              :
+Tags                     : {}
+AvailabilitySetReference :
+DiagnosticsProfile       :
+Extensions               : {}
+HardwareProfile          : Microsoft.Azure.Management.Compute.Models.HardwareProfile
+InstanceView             :
+NetworkProfile           : Microsoft.Azure.Management.Compute.Models.NetworkProfile
+SecurityProfile          :
+OSProfile                : Microsoft.Azure.Management.Compute.Models.OSProfile
+BillingProfile           :
+Plan                     :
+ProvisioningState        : Succeeded
+StorageProfile           : Microsoft.Azure.Management.Compute.Models.StorageProfile
+DisplayHint              : Compact
+Identity                 :
+Zones                    :
+FullyQualifiedDomainName : myvm-b9441f.Australia East.cloudapp.azure.com
+AdditionalCapabilities   :
+ProximityPlacementGroup  :
+Host                     :
+VirtualMachineScaleSet   :
+EvictionPolicy           :
+Priority                 :
+HostGroup                :
+CapacityReservation      :
+UserData                 :
+ApplicationProfile       :
+PlatformFaultDomain      :
+RequestId                :
+StatusCode               : 0
+
+
+
+PS C:\>
