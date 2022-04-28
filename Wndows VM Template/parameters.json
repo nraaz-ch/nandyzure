@@ -1,4 +1,4 @@
-{
+fGB{
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
@@ -58,7 +58,7 @@
             "value": "default"
         },
         "virtualNetworkName": {
-            "value": "GB01-vnet"
+            "value": "nandy-vm-vnet"
         },
         "addressPrefixes": {
             "value": [
@@ -97,7 +97,7 @@
             "value": "nandy-vm"
         },
         "virtualMachineRG": {
-            "value": "GB01"
+            "value": "nandy-vm"
         },
         "osDiskType": {
             "value": "Premium_LRS"
