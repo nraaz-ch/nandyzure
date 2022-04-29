@@ -158,10 +158,18 @@ SQL::
 mydbadmin
 P2ssword
 Connection
+New-AzResourceGroup -Name DB01 -Location AustraliaEast
 
-New-AzResourceGroup -Name DB-WEB -Location westus
+--------------------------------Create MySQL--using powershell----------------------------
+
 $Password = Read-Host -Prompt 'Please enter your password' -AsSecureString
-New-AzMySqlServer -Name serverDB -ResourceGroupName DB-WEB -Sku GP_Gen5_1 -GeoRedundantBackup Enabled -Location westus -AdministratorUsername myadmin -AdministratorLoginPassword $Password
-New-AzMySqlFirewallRule -Name AllowMyIP -ResourceGroupName DB-WEB -ServerName serverDB -StartIPAddress 192.168.0.1 -EndIPAddress 192.168.0.100
-Update-AzMySqlServer -Name serverDB -ResourceGroupName DB-WEB -SslEnforcement Disabled
-Get-AzMySqlServer -Name serverDB -ResourceGroupName DB-WEB | Select-Object -Property FullyQualifiedDomainName, AdministratorLogin
+New-AzMySqlServer -Name Nandy-DB09 -ResourceGroupName DB01 -Sku GP_Gen5_2 -GeoRedundantBackup Enabled -Location AustraliaEast -AdministratorUsername myadmin -AdministratorLoginPassword $Password
+New-AzMySqlFirewallRule -Name AllowMyIP -ResourceGroupName DB01 -ServerName Nandy-DB09 -StartIPAddress 192.168.0.1 -EndIPAddress 192.168.0.100
+Update-AzMySqlServer -Name Nandy-DB09 -ResourceGroupName DB01 -SslEnforcement Disabled
+Get-AzMySqlServer -Name Nandy-DB09 -ResourceGroupName DB01 | Select-Object -Property FullyQualifiedDomainName, AdministratorLogin
+
+-------------------------Creating App Service--Using Powershell------------------------------
+
+New-AzResource -Name sq-webapp -Location "AustraliaEast" -ResourceType microsoft.web/sites -Properties @{test="test"} -ResourceGroupName DB01 -Force
+
+String url ="jdbc:mysql://nandy-db09.mysql.database.azure.com:3306/myadmin@nandy-db09?useSSL=true&requireSSL=false"; myDbConn = DriverManager.getConnection(url, "myadmin@nandy-db09", P2sword123);
