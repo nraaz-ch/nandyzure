@@ -4,7 +4,7 @@ Install Choco: Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.Ser
 Install Chrome: choco install googlechrome
 
 Create Resorce Group
-New-AzResourceGroup -Name RG05 -Location "West Us" -Force
+New-AzResourceGroup -Name DB-WEB -Location "West Us" -Force
 
 New-Resorce
 New-AzResource -Name nandu-site5 -Location "West Us" -ResourceType microsoft.web/sites -Properties @{test="test"} -ResourceGroupName RG05 -Force
@@ -32,12 +32,12 @@ $appServicePlan = 'Linux-App-ServicePlan'
 
 az appservice plan create -g $resourceGroup -n $appServicePlan --is-linux --number-of-workers 1 --sku B1
 
-
+New-AzResource -Name my-sql-app -Location "East Us" -ResourceType microsoft.web/sites -Properties @{test="test"} -ResourceGroupName DB01 -Force
 OPT2:
 New-AzResorceGroup RG02 "East Us"
 New-AzAppServicePlan -Name LinuxSP -ResourceGroupName RG02 -Location "East Us" -NumberofWorkers 1 -Linux
 New-AzWebApp -Name "my-linux-app-service" -ResourceGroupName RG02 -Location "East Us" -AppServicePlan LinuxSP
-
+New-AzResource -Name sql-app1 -Location "West Us" -ResourceType microsoft.web/sites -Properties @{test="test"} -ResourceGroupName DB-WEB -Force
 Connect Linux VM 
 ----------------
 Create VM 
@@ -148,3 +148,20 @@ StatusCode               : 0
 PS C:\>
 How to Use Custum Maven Version in Azure Pipelines
 https://stackoverflow.com/questions/52327870/how-to-use-newer-versions-of-maven-for-builds-in-azure-pipelines-for-ci-cd
+
+
+Creating App & MySQL
+
+
+Create RG for DB & App Service
+SQL::
+mydbadmin
+P2ssword
+Connection
+
+New-AzResourceGroup -Name DB-WEB -Location westus
+$Password = Read-Host -Prompt 'Please enter your password' -AsSecureString
+New-AzMySqlServer -Name serverDB -ResourceGroupName DB-WEB -Sku GP_Gen5_1 -GeoRedundantBackup Enabled -Location westus -AdministratorUsername myadmin -AdministratorLoginPassword $Password
+New-AzMySqlFirewallRule -Name AllowMyIP -ResourceGroupName DB-WEB -ServerName serverDB -StartIPAddress 192.168.0.1 -EndIPAddress 192.168.0.100
+Update-AzMySqlServer -Name serverDB -ResourceGroupName DB-WEB -SslEnforcement Disabled
+Get-AzMySqlServer -Name serverDB -ResourceGroupName DB-WEB | Select-Object -Property FullyQualifiedDomainName, AdministratorLogin
