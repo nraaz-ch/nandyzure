@@ -92,7 +92,7 @@ Outputs                 :
   Creating VM By Powershell- Connect-AzAccount
 
 # Creating VM Using Power Shell
-New-AzResourceGroup -Name WIN-RG -Location "Australia East"
+New-AzResourceGroup -Name WIN -Location "Australia East"
 
 # InPuts
 
@@ -105,6 +105,7 @@ New-AzVm `
     -SecurityGroupName 'WIN-RGNetworkSecurityGroup' `
     -PublicIpAddressName 'WIN-RGPublicIpAddress' `
     -OpenPorts 80,3389
+	
 
 ------------------------------------------------------------------------
 
@@ -126,7 +127,7 @@ ProvisioningState        : Succeeded
 StorageProfile           : Microsoft.Azure.Management.Compute.Models.StorageProfile
 DisplayHint              : Compact
 Identity                 :
-Zones                    :
+Zones                    : 
 FullyQualifiedDomainName : myvm-b9441f.Australia East.cloudapp.azure.com
 AdditionalCapabilities   :
 ProximityPlacementGroup  :
@@ -145,3 +146,5 @@ StatusCode               : 0
 
 
 PS C:\>
+How to Use Custum Maven Version in Azure Pipelines
+https://stackoverflow.com/questions/52327870/how-to-use-newer-versions-of-maven-for-builds-in-azure-pipelines-for-ci-cd
