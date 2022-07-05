@@ -1,0 +1,9 @@
+===========Power Shell=====================
+Get-Item
+New-Item
+Set_Item
+Rename_Item
+Romove-Item
+
+Get-Installed 
+Get-date
