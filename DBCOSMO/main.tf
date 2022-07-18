@@ -1,13 +1,13 @@
-# Creating Cosmo DB
+# Creating Cosmo DB in Existing RG
 
-resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group
-  location = var.resource_group_location
+data "azurerm_resource_group" "rg" {
+  name = var.resource_group
+  #location = var.resource_group_location
 }
 resource "azurerm_cosmosdb_account" "acc" {
   name                      = var.cosmos_db_account_name
-  location                  = azurerm_resource_group.rg.location
-  resource_group_name       = azurerm_resource_group.rg.name
+  location                  = data.azurerm_resource_group.rg.location
+  resource_group_name       = data.azurerm_resource_group.rg.name
   offer_type                = "Standard"
   kind                      = "GlobalDocumentDB"
   enable_automatic_failover = true
