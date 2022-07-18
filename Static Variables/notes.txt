@@ -1,0 +1,17 @@
+
+Should be configure Azure Principle Account
+# Go Portal --> Active Directory --> App Register 
+
+subscription_id = 56327ea7-f66b-4ff8-9db7-4fad269d3ce3  
+clint_id = ed412fb5-def8-463a-83e3-4935966c31c3 AD--> App Register --> New --> TFUser
+client_secret = KHU8Q~weQzT6mCKKzvw3c5X7WBZHL.AW1pN5lcRf  TFUser --> Cetrificates & Scecret --> New Scecret
+Tenant_id = 4888e0d4-74a3-4b37-90c5-cb1214a39c88  AD--> App Register --> New --> TFUser
+
+
+-------------------------------
+terraform init
+terraform validate
+terraform plan
+terraform apply -auto-approve
+terraform destroy -auto-approve
+  
